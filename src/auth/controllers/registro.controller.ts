@@ -72,6 +72,19 @@ export class RegistroController {
     return usuarios;
   }
 
+  @Get(':id')
+  async getUsuarioById(@Param('id') id: string) {
+    try {
+      const usuario = await this.registroUsuarioService.getRegistroUsuario(id);
+      return usuario;
+    } catch (error) {
+      if (error instanceof NotFoundException) {
+        throw new NotFoundException('Usuario no encontrado.');
+      }
+      throw error;
+    }
+  }
+
   @Delete(':id')
   @HttpCode(204)
   deleteUsuarioRegistrado(@Param('id') id: string) {

@@ -19,23 +19,25 @@ export class RegistroService {
     return newUsuario;
   }
 
-  getAllRegistroUsuario() {
-    return this.registroUsuarioModel.find();
+  async getAllRegistroUsuario() {
+    const usuario = await this.registroUsuarioModel.find();
+    return usuario;
   }
 
+  async getRegistroUsuario(id: string) {
+    const usuario = await this.registroUsuarioModel.findById(id);
+    console.log('Usuario encontrado.', usuario);
+    return usuario;
+  }
   async deleteUsuario(id: string) {
     const usuario = await this.registroUsuarioModel.findByIdAndDelete(id);
     console.log('Usuario eliminado correctamente.', usuario);
     return usuario;
   }
 
-  async updateUsuario(id: string, usuario: UpdateRegistroUsuarioDto) {
-    return await this.registroUsuarioModel.findOneAndUpdate(
-      { _id: id },
-      usuario,
-      {
-        new: true,
-      },
-    );
+  async updateUsuario(id: string, user: UpdateRegistroUsuarioDto) {
+    return await this.registroUsuarioModel.findOneAndUpdate({ _id: id }, user, {
+      new: true,
+    });
   }
 }
